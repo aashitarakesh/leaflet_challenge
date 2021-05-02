@@ -50,14 +50,14 @@ var baseMaps = {
     collapsed: false
   }).addTo(myMap);
   var geoUrl ="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
-  var tectonicUrl ="https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_boundaries.json"
+  var tectonicUrl ="https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 
 // Perform an API call to USGS GeoJSON Information endpoint
 d3.json(geoUrl).then(function(earthquakeData) {
-
+ console.log(earthquakeData)
   // Function to determine marker size based on magnitude of earthquake
     function markerSize(magnitude) {
-    return magnitude *4;
+    return magnitude *3;
     }
   // Function to determine style of Marker Based on the Magnitude of the Earthquake
     function styleInfo(feature) {
@@ -74,18 +74,18 @@ d3.json(geoUrl).then(function(earthquakeData) {
  // Function to determine the color of the earth quake by depth
     function quakeColor(depth){
         switch (true) {
-            case depth >5:
-              return "#ff5967";
-            case depth >4:
-              return "#ea822c";
-            case depth >3:
-              return "#f6de1a";
-            case depth >2:
-              return "#ff5733";
-            case depth >1:
-              return "ffc300";
+            case depth < 1:
+              return "#228B22";
+            case depth < 2:
+              return "#32CD32";
+            case depth < 3:
+              return "#ADFF2F";
+            case depth < 4:
+              return "#FFA500";
+            case depth < 5:
+              return "#FF8C00";
             default:
-              return "#a7fb09";
+              return "#FF6347";
         }
     }
      // Create a GeoJSON layer containing the features array on the earthquakeData object
@@ -107,7 +107,7 @@ d3.json(geoUrl).then(function(earthquakeData) {
 
     // When the first API call is complete, perform another call to the earthquakeData on tectonic plates endpoint
     d3.json(tectonicUrl).then(function(tectonicData) {
-    
+     console.log(tectonicData)
     // Create a GeoJSON layer containing the features array on the earthquakeData object
     // Run the onEachFeature function once for each piece of earthquakeData in the array
         L.geoJSON(tectonicData, {
@@ -128,16 +128,13 @@ d3.json(geoUrl).then(function(earthquakeData) {
     legend.onAdd = function() {
      var div = L.DomUtil.create("div", "legend");
      var magnitude = [0, 1, 2, 3, 4, 5];
-     div.innerHTML = "<h5>Magnitude</h5>";
+     div.innerHTML = "<h4>Magnitude</h4>";
      for (var i = 0; i < magnitude.length; i++) {
-        div.innerHTML += '<i style="background: ' + quakeColor(magnitudeLevels[i] + 1) + '"></i> ' +
-        magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
+        div.innerHTML += '<i style="background: ' + quakeColor(magnitude[i] + 1) + '"></i> ' +
+        magnitude[i] + (magnitude[i + 1] ? '&ndash;' + magnitude[i + 1] + '<br>' : '+');
      }
      return div;
     };
     // Add the info legend to the map
     legend.addTo(myMap);  
 });
-// .catch(function(error) {
-//    console.log(error);
-//   });

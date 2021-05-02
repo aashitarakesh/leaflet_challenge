@@ -3,8 +3,31 @@ body {
   margin: 0;
 }
 
-#map,
+#mapid,
 body,
 html {
   height: 100%;
+}
+
+/* Set Legend Style */
+/* .info {
+  padding: 1px 10px;
+  background: #E5E7E9;
+  border-radius: 5px;
+} */
+
+.legend {
+  border-radius: 5px;
+  line-height: 25px;
+  color: #555;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.legend i {
+  width: 20px;
+  height: 20px;
+  float: right;
+  margin-right: 10px;
+  opacity: 0.75;
 }
