@@ -81,11 +81,11 @@ d3.json(geoUrl).then(function(earthquakeData) {
             case depth < 3:
               return "#ADFF2F";
             case depth < 4:
-              return "#FFA500";
+              return "#FFFF00";
             case depth < 5:
               return "#FF8C00";
             default:
-              return "#FF6347";
+              return "#FF4500";
         }
     }
      // Create a GeoJSON layer containing the features array on the earthquakeData object
